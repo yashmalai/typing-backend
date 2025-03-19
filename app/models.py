@@ -1,6 +1,5 @@
-from app.extenstion import db
+from app.extension import db
 from datetime import datetime
-from sqlalchemy.dialects.postgresql import ARRAY, JSON
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -13,6 +12,14 @@ class User(db.Model):
 
     user_stat = db.relationship('Statistics', backref='users', cascade="all,delete")
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "login": self.login,
+            "password": self.password,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
 
 class Statistics(db.Model):
     __tablename__ = 'statistics'
@@ -25,3 +32,13 @@ class Statistics(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, default=datetime.now())
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "text": self.text,
+            "accuracy": self.accuracy,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }

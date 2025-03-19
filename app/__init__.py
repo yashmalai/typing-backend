@@ -1,9 +1,8 @@
 from flask import Flask
 from app.config import Config
-from app.extenstion import db, migrate, jwt
+from app.extension import db, migrate
 from app.blueprints_registration import register_blueprints
 from flask_cors import CORS
-from datetime import timedelta
 
 
 def create_app():
