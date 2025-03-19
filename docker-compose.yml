@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5256:5000"
+      - "5260:5000"
     hostname: yord-typing
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
@@ -27,7 +27,7 @@ services:
     container_name: adminer_typing
     restart: always
     ports:
-      - 5258:8080
+      - 5261:8080
     environment:
      ADMINER_DEFAULT_SERVER: db
     depends_on:
@@ -36,7 +36,7 @@ services:
       - typing
 
   db:
-    container_name: db
+    container_name: db_typing
     restart: always
     image: postgres:16rc1
     volumes:
@@ -47,7 +47,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
-      - "5257:5432"
+      - "5262:5432"
     networks:
       - typing
 
