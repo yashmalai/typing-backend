@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: typing
     ports:
       - "5260:5000"
     hostname: yord-typing
@@ -13,7 +14,7 @@ services:
     restart: unless-stopped
     tty: true
     # command: bash -c "flask db init && flask db migrate && flask db upgrade && python3 app.py"
-
+    command: [ "sh", "/home/typing/entrypoint.sh" ]
 
     volumes:
       - .:/home/typing
