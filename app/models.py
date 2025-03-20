@@ -17,8 +17,8 @@ class User(db.Model):
             "id": self.id,
             "login": self.login,
             "password": self.password,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
+            "created_at": datetime.strftime(self.created_at, "%d-%m-%Y"),
+            "updated_at": datetime.strftime(self.updated_at, "%d-%m-%Y")
         }
 
 class Statistics(db.Model):
@@ -39,6 +39,6 @@ class Statistics(db.Model):
             "user_id": self.user_id,
             "text": self.text,
             "accuracy": self.accuracy,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
+            "created_at": datetime.strftime(self.created_at, "%d-%m-%Y"),
+            "updated_at": datetime.strftime(self.updated_at, "%d-%m-%Y")
         }

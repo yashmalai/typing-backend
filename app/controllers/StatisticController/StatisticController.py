@@ -13,8 +13,16 @@ class StatisticController(CRUDController):
         return super().get_all()
     
     @classmethod
-    def get_one(cls, user_id):
-        return super().get_one(user_id)
+    def get_one(cls, _id):
+        return super().get_one(_id)
+    
+    @classmethod
+    def get_filter_by_user(cls, user_id):
+        return super().get_filter_by_user(user_id)
+    
+    @classmethod
+    def get_filter_by(cls, **kwargs):
+        return super().get_filter_by(**kwargs)
     
     @classmethod
     def update(cls, user_id, **kwargs):
