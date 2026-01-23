@@ -1,57 +1,49 @@
-version: '3'
-
 services:
-  typing:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: typing
     ports:
-      - "5260:5000"
-    hostname: yord-typing
+      - "5010:5010"
+    hostname: yasha-flask
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
     restart: unless-stopped
     tty: true
-    # command: bash -c "flask db init && flask db migrate && flask db upgrade && python3 app.py"
-    command: [ "sh", "/home/typing/entrypoint.sh" ]
+    command: ["python3", "app.py"]
 
     volumes:
-      - .:/home/typing
+      - .:/home/yasha
     depends_on:
       - db
     networks:
-      - typing
-
-  adminer:
-    image: adminer
-    container_name: adminer_typing
-    restart: always
-    ports:
-      - 5261:8080
-    environment:
-     ADMINER_DEFAULT_SERVER: db
-    depends_on:
-      - db
-    networks:
-      - typing
+      - yasha
 
   db:
-    container_name: db_typing
     restart: always
     image: postgres:16rc1
     volumes:
-      - ./data/db:/var/lib/postgresql/data
-      - ./app/database/fixed3.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5262:5432"
     networks:
-      - typing
+      - yasha
 
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 5011:8080
+    depends_on:
+      - db
+    networks:
+      - yasha
 
 networks:
-  typing:
+  yasha:
+
+volumes:
+  pgdata:
+    driver: local
