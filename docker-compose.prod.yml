@@ -1,0 +1,41 @@
+services:
+  app:
+    container_name: typing-flask
+    image: registry.yasha/typing-backend:latest
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    tty: true
+    command: ["python3", "app.py"]
+
+    volumes:
+      - ./migrations:/home/yasha/migrations
+    depends_on:
+      - db
+    networks:
+      - yasha
+      - nginx
+
+  db:
+    container_name: typing-postgres
+    restart: always
+    image: postgres:16
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - yasha
+
+networks:
+  yasha:
+  nginx: 
+    external: true
+
+volumes:
+  pgdata:
+    driver: local
